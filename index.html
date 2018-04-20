@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Lorem Ipsum">
+
+        <title>Lorem Ipsum</title>
+
+        <link type="text/css" rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <header class="header">
+            <h1>Lorem Ipsum</h1>
+        </header>
+        <main class="player">
+            <section class="song">
+                <input type="file" id="fileSelect" name="fileSelect" class="fileSelect" accept="audio/*" />
+                <label for="fileSelect" class="fileSelect__label">
+                    <div class="song__select">
+                        Please select audio file
+                    </div>
+                    <div class="song__info">
+                        <div class="song__name">-</div>
+                    </div>
+                </label>
+            </section>
+            <section class="controls">
+                <button class="controls__play controls__btn">
+                    <div class="controls__icon"></div>
+                </button>
+                <button class="controls__stop controls__btn">
+                    <div class="controls__icon"></div>
+                </button>
+                <div class="controls__indicator-container">
+                    <div class="controls__indicator-bar"></div>
+                </div>
+                <div class="controls__time">00:42</div>
+            </section>
+        </main>
+
+        <script defer src="js/main.js"></script>
+    </body>
+</html>

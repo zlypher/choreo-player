@@ -1,0 +1,107 @@
+:root {
+    --base-color: #000000;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fileSelect {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.header {
+    text-align: center;
+}
+
+.fileSelect__label {
+    width: 200px;
+    height: 200px;
+    display: block;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.controls__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    background: lightblue;
+    cursor: pointer;
+}
+
+
+.controls__btn:disabled {
+    background: lightgreen;
+}
+
+.controls__play .controls__icon {
+    display: block;
+    width: 0px;
+    height: 0px;
+    border: 6px solid;
+    border-color: transparent transparent transparent var(--base-color);
+    border-right: 0px solid transparent;
+    border-left: 10px solid var(--base-color);
+    margin-left: 1px;
+}
+
+.controls__stop .controls__icon {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: var(--base-color);
+}
+
+.controls__indicator-container {
+    position: relative;
+    width: 200px;
+    height: 10px;
+    margin-right: 8px;
+}
+
+.controls__indicator-bar {
+    position: absolute;
+    width: 34%;
+    left: 0;
+    background-color: green;
+    top: 0;
+    bottom: 0;
+}
+
+.song {
+    margin-bottom: 16px;
+}
+
+.song__info {
+    display: none;
+}
+
+.song--selected .song__select {
+    display: none;
+}
+
+.song--selected .song__info {
+    display: flex;
+}

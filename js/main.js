@@ -17,7 +17,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const controls = {
         playEl: document.querySelector(".controls__play"),
         stopEl: document.querySelector(".controls__stop"),
-        timeEl: document.querySelector(".controls__time"),
+        timeCurrentEl: document.querySelector(".controls__time-current"),
+        timeTotalEl: document.querySelector(".controls__time-total"),
         indicatorBarEl: document.querySelector(".controls__indicator-bar"),
     };
 
@@ -79,7 +80,14 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
         songEl.classList.add("song--selected");
         songNameEl.innerHTML = filename;
+        controls.timeTotalEl.innerHTML = secondsToTime(player.buffer.duration);
     };
+
+    const secondsToTime = (totalSeconds) => {
+        const minutes = parseInt(totalSeconds / 60, 10);
+        const seconds = parseInt(totalSeconds - (minutes * 60), 10);
+        return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
 
     const getPosition = () => {
         const position = player.isPlaying ? (audioContext.currentTime - player.position) : player.position;
@@ -90,7 +98,9 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         // TODO: Implement
         const position = getPosition();
         const progress = position / player.buffer.duration * 100;
+
         controls.indicatorBarEl.style.width = `${progress}%`;
+        controls.timeCurrentEl.innerHTML = secondsToTime(position);
 
         if (player.isPlaying) {
             requestAnimationFrame(updateTimeDisplay);

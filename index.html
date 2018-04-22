@@ -5,22 +5,23 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Lorem Ipsum">
+        <meta name="description" content="Choreo Player">
 
-        <title>Lorem Ipsum</title>
+        <title>Choreo Player</title>
 
         <link type="text/css" rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <header class="header">
-            <h1>Lorem Ipsum</h1>
+            <h1 class="header__title">Choreo Player</h1>
+            <p class="header__subtitle">Please select an audio file and select the range which should be repeated.</p>
         </header>
         <main class="player">
             <section class="song">
                 <input type="file" id="fileSelect" name="fileSelect" class="fileSelect" accept="audio/*" />
                 <label for="fileSelect" class="fileSelect__label">
                     <div class="song__select">
-                        Please select audio file
+                        Click to select audio file!
                     </div>
                     <div class="song__info">
                         <div class="song__name">-</div>
@@ -37,7 +38,11 @@
                 <div class="controls__indicator-container">
                     <div class="controls__indicator-bar"></div>
                 </div>
-                <div class="controls__time">00:42</div>
+                <div class="controls__time">
+                    <span class="controls__time-current">00:00</span>
+                    <span>/</span>
+                    <span class="controls__time-total">00:00</span>
+                </div>
             </section>
         </main>
 

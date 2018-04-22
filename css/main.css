@@ -1,5 +1,24 @@
 :root {
     --base-color: #000000;
+    --text-color: #505050;
+
+    --player-width: 300px;
+    --control-size: 32px;
+}
+
+html {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    color: var(--text-color);
+}
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .player {
@@ -7,6 +26,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: var(--player-width);
 }
 
 .fileSelect {
@@ -20,13 +40,21 @@
 
 .header {
     text-align: center;
+    margin-bottom: 32px;
+}
+
+.header__title {
+    margin-bottom: 8px;
+}
+
+.header__subtitle {
+    margin: 0;
 }
 
 .fileSelect__label {
-    width: 200px;
-    height: 200px;
-    display: block;
+    height: 150px;
     border: 1px solid grey;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,20 +65,20 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 100%;
 }
 
 .controls__btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
-    width: 32px;
+    height: var(--control-size);
+    width: var(--control-size);
     border-radius: 50%;
     margin-right: 8px;
     background: lightblue;
     cursor: pointer;
 }
-
 
 .controls__btn:disabled {
     background: lightgreen;
@@ -75,8 +103,8 @@
 }
 
 .controls__indicator-container {
+    flex: 1;
     position: relative;
-    width: 200px;
     height: 10px;
     margin-right: 8px;
 }
@@ -91,6 +119,7 @@
 }
 
 .song {
+    width: 100%;
     margin-bottom: 16px;
 }
 

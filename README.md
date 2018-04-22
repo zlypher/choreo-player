@@ -6,7 +6,19 @@ Choreo Player is a music player with helpful functionality to help study choreog
 
 ## Getting Started
 
-TBD
+```bash
+# Clone the repository
+> git clone git@github.com:zlypher/choreo-player.git
+
+# Change into the new directory
+> cd choreo-player
+
+# Install the dependencies
+> npm install
+
+# Run the development version
+> npm run dev
+```
 
 ## License
 

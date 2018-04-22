@@ -1,10 +1,20 @@
 {
   "name": "choreo-player",
   "version": "1.0.0",
-  "description": "",
+  "description": "Choreo Player is a music player with helpful functionality to help study choreographies.",
   "main": "index.js",
   "scripts": {
     "dev": "http-server ."
+  },
+  "keywords": [
+    "music-player",
+    "choreography",
+    "web-audio-api"
+  ],
+  "homepage": "https://zlypher.github.io/choreo-player/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zlypher/choreo-player.git"
   },
   "author": "Thomas Prochazka <thomas.prochazka@gmail.com>",
   "license": "MIT",

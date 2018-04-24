@@ -44,14 +44,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         loadFile(file)
             .then(decode)
             .then((audioBuffer) => {
-                const { buffer, source } = initializeAudio(audioBuffer);
-
-                audioFileLoaded({
-                    filename: file.name,
-                    buffer,
-                    source
-                });
-
+                audioFileLoaded({ filename: file.name, buffer: audioBuffer });
                 clearMessage();
             })
             .catch((e) => {
@@ -76,15 +69,11 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
     });
 
-    const initializeAudio = (buffer) => {
+    const connectAudioContext = (buffer) => {
         let source = audioContext.createBufferSource();
         source.buffer = buffer;
         source.connect(audioContext.destination);
-
-        return {
-            buffer,
-            source,
-        };
+        return source;
     };
 
     /**
@@ -93,10 +82,9 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
      */
     const decode = (arrayBuffer) => audioContext.decodeAudioData(arrayBuffer);
 
-    const audioFileLoaded = ({ filename, buffer, source }) => {
+    const audioFileLoaded = ({ filename, buffer }) => {
         player.fileLoaded = true;
         player.buffer = buffer;
-        player.source = source;
 
         songEl.classList.add("song--selected");
         songNameEl.innerHTML = filename;
@@ -129,6 +117,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
         controls.indicatorBarEl.style.transform = `scaleX(${progress})`;
         controls.timeCurrentEl.innerHTML = secondsToTime(position);
+
+        player.position = position;
 
         if (progress === 1) {
             stopPlayer();
@@ -170,23 +160,27 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             player.source.stop();
             player.source = null;
         }
+        
+        controls.playEl.classList.remove("controls__play--playing");
     }
 
     /**
      * Handle click on play/pause button
      */
     const handlePlayClick = () => {
-        // TODO: Setup source, if song is stopped.
         player.isPlaying = !player.isPlaying;
         controls.playEl.classList.toggle("controls__play--playing", player.isPlaying);
 
         if (player.isPlaying) {
             player.position = player.position || 0;
             player.startTime = audioContext.currentTime - player.position;
-            player.source.start(audioContext.currentTime, this.position);
+
+            player.source = connectAudioContext(player.buffer);
+            player.source.start(audioContext.currentTime, player.position);
             updateTimeDisplay();
         } else {
-            // TODO: Handle Pause
+            player.source.stop();
+            player.source = null;
         }
     }
 

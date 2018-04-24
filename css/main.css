@@ -107,8 +107,10 @@ body {
 .controls__indicator-container {
     flex: 1;
     position: relative;
-    height: 10px;
+    height: 14px;
     margin-right: 8px;
+    border: 1px solid black;
+    border-radius: 2px;
 }
 
 .controls__indicator-bar {

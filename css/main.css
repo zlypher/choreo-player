@@ -140,3 +140,28 @@ body {
 .song--selected .song__info {
     display: flex;
 }
+
+.message-box {
+    width: 100%;
+    margin-top: 16px;
+    padding: 16px 8px;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    opacity: 1;
+    transition: opacity 0.25 ease-in-out;
+
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.message-box--hidden {
+    opacity: 0;
+}
+
+.message-box--error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}

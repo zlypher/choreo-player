@@ -17,6 +17,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     };
 
     // Reference to HTML elements
+    const messageEl = document.querySelector(".message-box");
     const fileSelectEl = document.querySelector(".fileSelect");
     const songEl = document.querySelector(".song");
     const songNameEl = document.querySelector(".song__name");
@@ -38,6 +39,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             return;
         }
 
+        displayMessage(`Loading file "${file.name}"...`);
+
         loadFile(file)
             .then(decode)
             .then((audioBuffer) => {
@@ -48,6 +51,12 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
                     buffer,
                     source
                 });
+
+                clearMessage();
+            })
+            .catch((e) => {
+                displayMessage("Could not load audio file! Please select a different file.", "error");
+                console.error(e);
             });
     };
 
@@ -128,6 +137,29 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         if (player.isPlaying) {
             requestAnimationFrame(updateTimeDisplay);
         }
+    };
+
+    /**
+     * Clears the currently displayed message and hides the message-box.
+     */
+    const clearMessage = () => {
+        messageEl.innerHTML = "";
+        messageEl.classList.remove("message-box--error");
+        messageEl.classList.remove("message-box--info");
+        messageEl.classList.add("message-box--hidden");
+    };
+
+    /**
+     * Displays an info or error message to the user.
+     * @param {string} message
+     * @param {string} type
+     */
+    const displayMessage = (message, type = "info") => {
+        clearMessage();
+
+        messageEl.innerHTML = message;
+        messageEl.classList.remove(`message-box--hidden`);
+        messageEl.classList.add(`message-box--${type}`);
     };
 
     const stopPlayer = () => {

@@ -178,6 +178,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const handlePlayClick = () => {
         // TODO: Setup source, if song is stopped.
         player.isPlaying = !player.isPlaying;
+        controls.playEl.classList.toggle("controls__play--playing", player.isPlaying);
+
         if (player.isPlaying) {
             player.position = player.position || 0;
             player.startTime = audioContext.currentTime - player.position;

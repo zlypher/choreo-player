@@ -86,7 +86,7 @@ body {
     background: lightgreen;
 }
 
-.controls__play .controls__icon {
+.controls__icon--play {
     display: block;
     width: 0px;
     height: 0px;
@@ -97,7 +97,24 @@ body {
     margin-left: 1px;
 }
 
-.controls__stop .controls__icon {
+.controls__icon--pause {
+    display: none;
+    width: 2px;
+    height: 10px;
+    background: transparent;
+    border-left: 4px solid var(--base-color);
+    border-right: 4px solid var(--base-color);
+}
+
+.controls__play--playing .controls__icon--play {
+    display: none;
+}
+
+.controls__play--playing .controls__icon--pause {
+    display: block;
+}
+
+.controls__icon--stop {
     display: block;
     width: 10px;
     height: 10px;

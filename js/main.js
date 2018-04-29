@@ -26,7 +26,23 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         stopEl: document.querySelector(".controls__stop"),
         timeCurrentEl: document.querySelector(".controls__time-current"),
         timeTotalEl: document.querySelector(".controls__time-total"),
+        indicatorContainerEl: document.querySelector(".controls__indicator-container"),
         indicatorBarEl: document.querySelector(".controls__indicator-bar"),
+    };
+
+    const titlesList = document.querySelector(".titles__list");
+
+    const initializeChoreoPlayer = () => {
+        // Bind Events
+        controls.playEl.addEventListener("click", handlePlayClick, false);
+        controls.stopEl.addEventListener("click", handleStopClick, false);
+        controls.indicatorContainerEl.addEventListener("click", handleIndicatorClick, false);
+        fileSelectEl.addEventListener("change", handleFileSelected, false);
+
+        if (isStorageAvailable) {
+            const prevTitles = getPreviousTitles();
+            displayPreviousTitles(prevTitles);
+        }
     };
 
     /**
@@ -86,6 +102,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         player.fileLoaded = true;
         player.buffer = buffer;
 
+        storeTitle(filename, buffer);
         songEl.classList.add("song--selected");
         songNameEl.innerHTML = filename;
         controls.timeTotalEl.innerHTML = secondsToTime(player.buffer.duration);
@@ -164,10 +181,76 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         controls.playEl.classList.remove("controls__play--playing");
     }
 
+    // TODO: IndexDB
+    const isStorageAvailable = true; // typeof window.localStorage !== "undefined";
+
+    const storeTitle = (name, data) => {
+        if (!isStorageAvailable) {
+            return;
+        }
+
+        // TODO: IndexDB
+        // const listKey = "_choreo_titles_"
+        // const listOfTitlesStr = localStorage.getItem(listKey) || "[]";
+        // const listOfTitles = JSON.parse(listOfTitlesStr);
+
+        // const newListOfTitles = [...listOfTitles, name];
+        // localStorage.setItem(listKey, JSON.stringify(newListOfTitles));
+        // localStorage.setItem(`choreo_title_${name}`, JSON.stringify(data));
+    };
+
+    /**
+     * Loads a previous title from storage by its name
+     * @param {string} name 
+     */
+    const loadTitle = (name) => {
+        if (!isStorageAvailable) {
+            return;
+        }
+
+        // TODO: IndexDB
+    };
+
+    /**
+     * Get a list of stored previous titles
+     */
+    const getPreviousTitles = () => {
+        if (!isStorageAvailable) {
+            return [];
+        }
+
+        // TODO: IndexDB
+        // return localStorage.getItem("_choreo_titles_") || [];
+        return [];
+    };
+
+    /**
+     * Display a list of previous titles
+     * @param {Array} prevTitles
+     */
+    const displayPreviousTitles = (prevTitles) => {
+        titlesList.innerHTML = prevTitles.map(renderPreviousTitlesItem).join("");
+    };
+
+    /**
+     * Renders a single previous title element
+     * @param {string} title
+     */
+    const renderPreviousTitlesItem = (title) => `
+        <li class="titles__item">
+            <span class="titles__link">${title}</span>
+            <span>x</span>
+        </li>
+    `;
+
     /**
      * Handle click on play/pause button
      */
     const handlePlayClick = () => {
+        if (!player.fileLoaded) {
+            return;
+        }
+
         player.isPlaying = !player.isPlaying;
         controls.playEl.classList.toggle("controls__play--playing", player.isPlaying);
 
@@ -189,8 +272,18 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
      */
     const handleStopClick = () => stopPlayer();
 
-    // Bind Events
-    controls.playEl.addEventListener("click", handlePlayClick, false);
-    controls.stopEl.addEventListener("click", handleStopClick, false);
-    fileSelectEl.addEventListener("change", handleFileSelected, false);
+    const handleIndicatorClick = (e) => {
+        if (!player.fileLoaded) {
+            return;
+        }
+
+        const containerWidth = controls.indicatorContainerEl.getBoundingClientRect().width;
+        const offset = Math.max(0, Math.min(containerWidth, e.offsetX));
+        const percentage = offset / containerWidth;
+
+        // TODO: Implement and do something with value
+        console.log(percentage);
+    };
+
+    initializeChoreoPlayer();
 })();

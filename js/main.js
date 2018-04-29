@@ -16,6 +16,14 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         isPlaying: false,
     };
 
+    const state = {
+        checkpoints: [],
+    };
+
+    const storageKeys = {
+        checkpoints: "_choreo_checkpoints_",
+    };
+
     // Reference to HTML elements
     const messageEl = document.querySelector(".message-box");
     const fileSelectEl = document.querySelector(".fileSelect");
@@ -24,24 +32,32 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const controls = {
         playEl: document.querySelector(".controls__play"),
         stopEl: document.querySelector(".controls__stop"),
+        addEl: document.querySelector(".controls__add"),
         timeCurrentEl: document.querySelector(".controls__time-current"),
         timeTotalEl: document.querySelector(".controls__time-total"),
         indicatorContainerEl: document.querySelector(".controls__indicator-container"),
         indicatorBarEl: document.querySelector(".controls__indicator-bar"),
     };
 
+    const checkpointsList = document.querySelector(".checkpoints__list");
     const titlesList = document.querySelector(".titles__list");
 
     const initializeChoreoPlayer = () => {
         // Bind Events
         controls.playEl.addEventListener("click", handlePlayClick, false);
         controls.stopEl.addEventListener("click", handleStopClick, false);
+        controls.addEl.addEventListener("click", handleAddClick, false);
         controls.indicatorContainerEl.addEventListener("click", handleIndicatorClick, false);
         fileSelectEl.addEventListener("change", handleFileSelected, false);
 
         if (isStorageAvailable) {
             const prevTitles = getPreviousTitles();
             displayPreviousTitles(prevTitles);
+
+            const checkpoints = getSavedCheckpoints();
+            displayCheckpoints(checkpoints);
+
+            state.checkpoints = checkpoints;
         }
     };
 
@@ -85,6 +101,10 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
     });
 
+    /**
+     * Creates an AudioSource from the given buffer and connects it to the AudioContext.
+     * @param {AudioBuffer} buffer 
+     */
     const connectAudioContext = (buffer) => {
         let source = audioContext.createBufferSource();
         source.buffer = buffer;
@@ -243,6 +263,41 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         </li>
     `;
 
+    const saveCheckpoint = (checkpoint) => {
+        const currentCheckpoints = getSavedCheckpoints();
+        const checkpoints = [...currentCheckpoints, checkpoint];
+
+        localStorage.setItem(storageKeys.checkpoints, JSON.stringify(checkpoints));
+    }
+
+    const getSavedCheckpoints = () => {
+        if (!isStorageAvailable) {
+            return [];
+        }
+
+        return JSON.parse(localStorage.getItem(storageKeys.checkpoints)) || [];
+    };
+
+    /**
+     * Display a list of checkpoints
+     * @param {Array} checkpoints 
+     */
+    const displayCheckpoints = (checkpoints) => {
+        checkpointsList.innerHTML = checkpoints.map(renderCheckpointItem).join("");
+    };
+
+    /**
+     * Renders a single checkpoint element
+     * @param {string} checkpoint 
+     */
+    const renderCheckpointItem = (checkpoint) => `
+        <li class="checkpoints__item">
+            <span class="checkpoints__link">${checkpoint}</span>
+            <span class="checkpoints__action">P</span>
+            <span class="checkpoints__action">X</span>
+        </li>
+    `;
+
     /**
      * Handle click on play/pause button
      */
@@ -271,6 +326,14 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
      * Handle click on stop button
      */
     const handleStopClick = () => stopPlayer();
+
+    const handleAddClick = () => {
+        // TODO: Implement ...
+        const checkpoint = "new Checkpoint";
+        saveCheckpoint(checkpoint)
+
+        // TODO: update list
+    };
 
     const handleIndicatorClick = (e) => {
         if (!player.fileLoaded) {

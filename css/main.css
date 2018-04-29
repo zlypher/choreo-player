@@ -25,8 +25,7 @@ body {
 .player {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: stretch;
     width: var(--player-width);
 }
 
@@ -67,10 +66,13 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid var(--base-color);
+    margin-bottom: -1px;
 }
 
 .controls__btn {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,6 +121,20 @@ body {
     width: 10px;
     height: 10px;
     background-color: var(--base-color);
+}
+
+.controls__icon--add-1 {
+    width: 4px;
+    height: 14px;
+    background: var(--base-color);
+    position: absolute;
+    left: 12px;
+}
+
+.controls__icon--add-2 {
+    width: 14px;
+    height: 4px;
+    background: var(--base-color);
 }
 
 .controls__indicator-container {
@@ -187,7 +203,7 @@ body {
     width: 200px;
 }
 
-.titles__list {
+.u-nolist {
     margin: 0;
     padding-left: 0;
     list-style: none;
@@ -214,4 +230,31 @@ body {
     flex: 1;
     padding: 8px;
     cursor: pointer;
+}
+
+.checkpoints__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -1px;
+    padding-right: 8px;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.checkpoints__item:last-child {
+    margin-bottom: 0;
+}
+
+.checkpoints__item:hover {
+    background-color: #f8f9fa;
+}
+
+.checkpoints__link {
+    flex: 1;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.checkpoints__action {
+    padding: 0 8px;
 }

@@ -92,7 +92,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const loadFile = (file) => new Promise((resolve, reject) => {
         try {
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = () => {
                 resolve(reader.result);
             };
             reader.readAsArrayBuffer(file);
@@ -136,14 +136,14 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         const minutes = parseInt(totalSeconds / 60, 10);
         const seconds = parseInt(totalSeconds - (minutes * 60), 10);
         return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }
+    };
 
     /**
      * Gets the current position in the song
      */
     const getPosition = () => {
         return player.isPlaying ? (audioContext.currentTime - player.startTime) : player.position;
-    }
+    };
 
     /**
      * Updates the progress bar and the time display
@@ -185,7 +185,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         clearMessage();
 
         messageEl.innerHTML = message;
-        messageEl.classList.remove(`message-box--hidden`);
+        messageEl.classList.remove("message-box--hidden");
         messageEl.classList.add(`message-box--${type}`);
     };
 
@@ -199,7 +199,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
         
         controls.playEl.classList.remove("controls__play--playing");
-    }
+    };
 
     // TODO: IndexDB
     const isStorageAvailable = true; // typeof window.localStorage !== "undefined";
@@ -208,6 +208,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!isStorageAvailable) {
             return;
         }
+
+        console.log(name, data);
 
         // TODO: IndexDB
         // const listKey = "_choreo_titles_"
@@ -223,13 +225,15 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
      * Loads a previous title from storage by its name
      * @param {string} name 
      */
-    const loadTitle = (name) => {
-        if (!isStorageAvailable) {
-            return;
-        }
+    // const loadTitle = (name) => {
+    //     if (!isStorageAvailable) {
+    //         return;
+    //     }
 
-        // TODO: IndexDB
-    };
+    //     console.log(name);
+
+    //     // TODO: IndexDB
+    // };
 
     /**
      * Get a list of stored previous titles
@@ -268,7 +272,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         const checkpoints = [...currentCheckpoints, checkpoint];
 
         localStorage.setItem(storageKeys.checkpoints, JSON.stringify(checkpoints));
-    }
+    };
 
     const getSavedCheckpoints = () => {
         if (!isStorageAvailable) {
@@ -298,6 +302,26 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         </li>
     `;
 
+    const playFrom = (progress) => {
+        // TODO: More defensive...
+
+        const time = progress * player.buffer.duration;
+        
+        if (player.isPlaying) {
+            player.source.stop();
+            
+            player.position = time;
+            player.startTime = audioContext.currentTime - player.position;
+
+            player.source = connectAudioContext(player.buffer);
+            player.source.start(audioContext.currentTime, player.position);
+        } else {
+            player.position = time;
+        }
+
+        updateTimeDisplay();
+    };
+
     /**
      * Handle click on play/pause button
      */
@@ -320,32 +344,46 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             player.source.stop();
             player.source = null;
         }
-    }
+    };
 
     /**
      * Handle click on stop button
      */
     const handleStopClick = () => stopPlayer();
 
+    /**
+     * Handle click on add button
+     */
     const handleAddClick = () => {
-        // TODO: Implement ...
-        const checkpoint = "new Checkpoint";
-        saveCheckpoint(checkpoint)
+        const position = getPosition();
+        const progress = Math.min(position / player.buffer.duration, 1);
+
+        const checkpoint = {
+            label: secondsToTime(position),
+            progress: progress,
+        };
+
+        saveCheckpoint(checkpoint);
 
         // TODO: update list
     };
 
+    /**
+     * Handle click anywhere on the indicator bar
+     * @param {MouseEvent} e 
+     */
     const handleIndicatorClick = (e) => {
         if (!player.fileLoaded) {
             return;
         }
 
-        const containerWidth = controls.indicatorContainerEl.getBoundingClientRect().width;
-        const offset = Math.max(0, Math.min(containerWidth, e.offsetX));
+        const containerRect = controls.indicatorContainerEl.getBoundingClientRect();
+        const containerWidth = containerRect.width;
+        const offsetX = e.clientX - containerRect.x;
+        const offset = Math.max(0, Math.min(containerWidth, offsetX));
         const percentage = offset / containerWidth;
 
-        // TODO: Implement and do something with value
-        console.log(percentage);
+        playFrom(percentage);
     };
 
     initializeChoreoPlayer();

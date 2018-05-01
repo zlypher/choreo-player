@@ -4,9 +4,10 @@
   "description": "Choreo Player is a music player with helpful functionality to help study choreographies.",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run server",
-    "server": "http-server .",
-    "lint": "eslint js/main.js"
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "dev": "concurrently --kill-others \"npm run build:watch\" \"npm run server\"",
+    "server": "http-server ."
   },
   "keywords": [
     "music-player",
@@ -21,7 +22,12 @@
   "author": "Thomas Prochazka <thomas.prochazka@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "concurrently": "^3.5.1",
     "eslint": "^4.19.1",
-    "http-server": "0.11.1"
+    "http-server": "0.11.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-scss": "^0.4.0",
+    "rollup-plugin-uglify": "^3.0.0"
   }
 }

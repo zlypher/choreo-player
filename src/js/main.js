@@ -1,4 +1,4 @@
-"use strict";
+import "../css/main.css";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 

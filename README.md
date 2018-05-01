@@ -38,7 +38,7 @@ Choreo Player is a music player with helpful functionality to help study choreog
 
 ## TODO
 
-- [ ] Introduce RolloupJS
+- [x] Introduce RolloupJS
 - [ ] Implement Checkpoint functionality
     - [ ] Add checkpoints
     - [ ] Remove checkpoints

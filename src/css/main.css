@@ -321,6 +321,17 @@ body {
     padding: 0 8px;
 }
 
+.nojs-warning {
+    width: calc(100% - 16px);
+    padding: 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    margin-bottom: 16px;
+}
+
 /**
  * Utility
  */

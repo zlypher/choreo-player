@@ -4,7 +4,23 @@ Choreo Player is a music player with helpful functionality to help study choreog
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**Table of Contents**
+* [Getting Started](#getting-started)
+  * [Online version](#online-version)
+  * [Host your own version](#host-your-own-version)
+* [TODO](#todo)
+* [License](#license)
+
 ## Getting Started
+
+### Online version
+
+1. Visit https://zlypher.github.io/choreo-player/
+2. Select your song
+3. Set checkpoints
+4. Go!
+
+### Host your own version
 
 ```bash
 # Clone the repository
@@ -19,6 +35,14 @@ Choreo Player is a music player with helpful functionality to help study choreog
 # Run the development version
 > npm run dev
 ```
+
+## TODO
+
+- [ ] Introduce RolloupJS
+- [ ] Implement Checkpoint functionality
+    - [ ] Add checkpoints
+    - [ ] Remove checkpoints
+    - [ ] Play from checkpoint
 
 ## License
 
